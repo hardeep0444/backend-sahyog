@@ -1,73 +1,44 @@
 package com.sahyog.backend.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Builder
 public class CareContext {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @OneToMany(cascade = {CascadeType.ALL})
-    public List<Visit> visitList;
-
+    @SequenceGenerator(
+            name = "care_context_sequence",
+            sequenceName = "care_context_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "care_context_sequence"
+    )
+    private int careContextId;
     public String display;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
+    @JoinColumn(
+            name = "patient_id_fk",
+            referencedColumnName = "patientId"
+    )
     public Patient patient;
+    @ManyToOne
+    @JoinColumn(
+            name = "doctor_id_fk",
+            referencedColumnName = "doctorId"
+    )
+    public Doctor doctor;
+    @OneToMany(mappedBy = "careContext")
+    List<Visit> visitList;
 
-    public CareContext(int id, List<Visit> visitList, String display, Patient patient) {
-        this.id = id;
-        this.visitList = visitList;
-        this.display = display;
-        this.patient = patient;
-    }
-
-    public CareContext() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public List<Visit> getVisitList() {
-        return visitList;
-    }
-
-    public void setVisitList(List<Visit> visitList) {
-        this.visitList = visitList;
-    }
-
-    public String getDisplay() {
-        return display;
-    }
-
-    public void setDisplay(String display) {
-        this.display = display;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    @Override
-    public String toString() {
-        return "CareContext{" +
-                "id=" + id +
-                ", visitList=" + visitList +
-                ", display='" + display + '\'' +
-                ", patient=" + patient +
-                '}';
-    }
 }
