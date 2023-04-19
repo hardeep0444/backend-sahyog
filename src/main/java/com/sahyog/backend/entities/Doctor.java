@@ -36,6 +36,7 @@ public class Doctor {
             generator = "doctor_sequence"
     )
     private int doctorId;
+    @Column(unique = true)
     public String healthId;
     public String healthIdNumber;
     public String registrationNumber;
