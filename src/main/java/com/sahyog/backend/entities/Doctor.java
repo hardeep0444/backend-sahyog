@@ -15,7 +15,7 @@ import java.util.List;
         uniqueConstraints = {
                 @UniqueConstraint(
                 name = "healthid_unique",
-                columnNames = "healthId"
+                columnNames = "health_id"
         ),
                 @UniqueConstraint(
                         name = "registrationNumber_unique",
@@ -36,7 +36,6 @@ public class Doctor {
             generator = "doctor_sequence"
     )
     private int doctorId;
-    @Column(unique = true)
     public String healthId;
     public String healthIdNumber;
     public String registrationNumber;
